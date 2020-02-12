@@ -61,6 +61,8 @@ public actual inline fun maxOf(a: Long, b: Long): Long {
 
 /**
  * Returns the greater of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -70,6 +72,8 @@ public actual inline fun maxOf(a: Float, b: Float): Float {
 
 /**
  * Returns the greater of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -123,6 +127,8 @@ public actual inline fun maxOf(a: Long, b: Long, c: Long): Long {
 
 /**
  * Returns the greater of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -132,6 +138,8 @@ public actual inline fun maxOf(a: Float, b: Float, c: Float): Float {
 
 /**
  * Returns the greater of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -186,6 +194,8 @@ public actual inline fun minOf(a: Long, b: Long): Long {
 
 /**
  * Returns the smaller of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -195,6 +205,8 @@ public actual inline fun minOf(a: Float, b: Float): Float {
 
 /**
  * Returns the smaller of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -248,6 +260,8 @@ public actual inline fun minOf(a: Long, b: Long, c: Long): Long {
 
 /**
  * Returns the smaller of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -257,6 +271,8 @@ public actual inline fun minOf(a: Float, b: Float, c: Float): Float {
 
 /**
  * Returns the smaller of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly

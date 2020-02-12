@@ -52,6 +52,8 @@ public expect inline fun maxOf(a: Long, b: Long): Long
 
 /**
  * Returns the greater of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -59,6 +61,8 @@ public expect inline fun maxOf(a: Float, b: Float): Float
 
 /**
  * Returns the greater of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -100,6 +104,8 @@ public expect inline fun maxOf(a: Long, b: Long, c: Long): Long
 
 /**
  * Returns the greater of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -107,6 +113,8 @@ public expect inline fun maxOf(a: Float, b: Float, c: Float): Float
 
 /**
  * Returns the greater of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -181,6 +189,8 @@ public fun maxOf(a: Long, vararg other: Long): Long {
 
 /**
  * Returns the greater of given values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Float, vararg other: Float): Float {
@@ -195,6 +205,8 @@ public fun maxOf(a: Float, vararg other: Float): Float {
 
 /**
  * Returns the greater of given values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Double, vararg other: Double): Double {
@@ -254,6 +266,8 @@ public expect inline fun minOf(a: Long, b: Long): Long
 
 /**
  * Returns the smaller of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -261,6 +275,8 @@ public expect inline fun minOf(a: Float, b: Float): Float
 
 /**
  * Returns the smaller of two values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -302,6 +318,8 @@ public expect inline fun minOf(a: Long, b: Long, c: Long): Long
 
 /**
  * Returns the smaller of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -309,6 +327,8 @@ public expect inline fun minOf(a: Float, b: Float, c: Float): Float
 
 /**
  * Returns the smaller of three values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.1")
 @kotlin.internal.InlineOnly
@@ -383,6 +403,8 @@ public fun minOf(a: Long, vararg other: Long): Long {
 
 /**
  * Returns the smaller of given values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Float, vararg other: Float): Float {
@@ -397,6 +419,8 @@ public fun minOf(a: Float, vararg other: Float): Float {
 
 /**
  * Returns the smaller of given values.
+ * 
+ * If any of given values is `NaN` returns `NaN`.
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Double, vararg other: Double): Double {

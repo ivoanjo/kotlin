@@ -171,9 +171,11 @@ object ComparableOps : TemplateGroupBase() {
         body { "return $defaultImpl" }
 
         specialFor(Primitives, Unsigned) {
-            doc { "Returns the smaller of two values." }
+            doc {
+                "Returns the smaller of two values." +
+                if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
+            }
         }
-        // TODO: Add a note about NaN propagation for floats.
         specialFor(Primitives) {
             inlineOnly()
             var convertBack = "to$primitive()"
@@ -227,11 +229,9 @@ object ComparableOps : TemplateGroupBase() {
         returns("T")
         receiver("")
         specialFor(Primitives, Unsigned) { inlineOnly() }
-        // TODO: Add a note about NaN propagation for floats.
         doc {
-            """
-            Returns the smaller of three values.
-            """
+            "Returns the smaller of three values." +
+            if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
         }
         body {
             "return minOf(a, minOf(b, c))"
@@ -269,11 +269,9 @@ object ComparableOps : TemplateGroupBase() {
         typeParam("T : Comparable<T>")
         returns("T")
         receiver("")
-        // TODO: Add a note about NaN propagation for floats.
         doc {
-            """
-            Returns the smaller of given values.
-            """
+            "Returns the smaller of given values." +
+            if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
         }
         body {
             """
@@ -373,9 +371,11 @@ object ComparableOps : TemplateGroupBase() {
         body { "return $defaultImpl" }
 
         specialFor(Primitives, Unsigned) {
-            doc { "Returns the greater of two values." }
+            doc {
+                "Returns the greater of two values." +
+                if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
+            }
         }
-        // TODO: Add a note about NaN propagation for floats.
         specialFor(Primitives) {
             inlineOnly()
             var convertBack = "to$primitive()"
@@ -425,11 +425,9 @@ object ComparableOps : TemplateGroupBase() {
         returns("T")
         receiver("")
         specialFor(Primitives, Unsigned) { inlineOnly() }
-        // TODO: Add a note about NaN propagation for floats.
         doc {
-            """
-            Returns the greater of three values.
-            """
+            "Returns the greater of three values." +
+            if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
         }
         body {
             "return maxOf(a, maxOf(b, c))"
@@ -467,11 +465,9 @@ object ComparableOps : TemplateGroupBase() {
         typeParam("T : Comparable<T>")
         returns("T")
         receiver("")
-        // TODO: Add a note about NaN propagation for floats.
         doc {
-            """
-            Returns the greater of given values.
-            """
+            "Returns the greater of given values." +
+            if (primitive?.isFloatingPoint() == true) "\n\n" + "If any of given values is `NaN` returns `NaN`." else ""
         }
         body {
             """
