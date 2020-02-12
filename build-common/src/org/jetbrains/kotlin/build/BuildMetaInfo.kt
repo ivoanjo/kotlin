@@ -50,7 +50,7 @@ abstract class BuildMetaInfoFactory<T : BuildMetaInfo>(private val metaInfoClass
 
         return create(
             isEAP = languageVersion.isPreRelease(),
-            compilerBuildVersion = KotlinCompilerVersion.VERSION,
+            compilerBuildVersion = KotlinCompilerVersion.getVersion(),
             languageVersionString = languageVersion.versionString,
             apiVersionString = args.apiVersion ?: languageVersion.versionString,
             coroutinesEnable = args.coroutinesState == CommonCompilerArguments.ENABLE,

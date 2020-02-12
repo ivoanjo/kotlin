@@ -49,7 +49,7 @@ val writeCompilerVersion by tasks.registering {
     inputs.property("version", kotlinVersion)
     outputs.file(versionFile)
     doLast {
-        replaceVersion(versionFile, """public static final String VERSION = "([^"]+)"""") {
+        replaceVersion(versionFile, """private static final String VERSION = "([^"]+)"""") {
             logger.lifecycle("Writing new compiler version: $kotlinVersion")
             kotlinVersion
         }

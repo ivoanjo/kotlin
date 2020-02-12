@@ -23,9 +23,9 @@ import javax.script.ScriptEngineFactory
 abstract class KotlinJsr223JvmScriptEngineFactoryBase : ScriptEngineFactory {
 
     override fun getLanguageName(): String = "kotlin"
-    override fun getLanguageVersion(): String = KotlinCompilerVersion.VERSION
+    override fun getLanguageVersion(): String = KotlinCompilerVersion.getVersion()
     override fun getEngineName(): String = "kotlin"
-    override fun getEngineVersion(): String = KotlinCompilerVersion.VERSION
+    override fun getEngineVersion(): String = KotlinCompilerVersion.getVersion()
     override fun getExtensions(): List<String> = listOf("kts")
     override fun getMimeTypes(): List<String> = listOf("text/x-kotlin")
     override fun getNames(): List<String> = listOf("kotlin")

@@ -81,7 +81,7 @@ public abstract class KotlinIntegrationTestBase extends TestCaseWithTmpdir {
         content = normalizePath(content, tmpdir, "[Temp]");
         content = normalizePath(content, getCompilerLib(), "[CompilerLib]");
         content = normalizePath(content, new File(KotlinTestUtils.getHomeDirectory()), "[KotlinProjectHome]");
-        content = content.replaceAll(Pattern.quote(KotlinCompilerVersion.VERSION), "[KotlinVersion]");
+        content = content.replaceAll(Pattern.quote(KotlinCompilerVersion.getVersion()), "[KotlinVersion]");
         content = content.replaceAll("\\(JRE .+\\)", "(JRE [JREVersion])");
         content = StringUtil.convertLineSeparators(content);
         content = content.replaceAll("\n.*Picked up [_A-Z]+:.*\n", "\n");

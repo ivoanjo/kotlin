@@ -134,7 +134,7 @@ enum class LibraryJarDescriptor(
     fun getPathInPlugin() = getPath(PathUtil.kotlinPathsForIdeaPlugin)
 }
 
-fun bundledRuntimeVersion(): String = KotlinCompilerVersion.VERSION
+fun bundledRuntimeVersion(): String = KotlinCompilerVersion.getVersion()
 
 
 fun getLocalJar(kotlinRuntimeJar: VirtualFile?): VirtualFile? {

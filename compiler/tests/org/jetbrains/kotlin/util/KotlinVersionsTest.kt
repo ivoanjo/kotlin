@@ -54,7 +54,7 @@ class KotlinVersionsTest : KtUsefulTestCase() {
 
         // This version is null in case of a local build when KotlinCompilerVersion.VERSION = "@snapshot@"
         versions.addIfNotNull(
-                KotlinCompilerVersion.VERSION.substringBefore('-').toVersionOrNull("KotlinCompilerVersion.VERSION")
+                KotlinCompilerVersion.getVersion().substringBefore('-').toVersionOrNull("KotlinCompilerVersion.VERSION")
         )
 
         versions.add(

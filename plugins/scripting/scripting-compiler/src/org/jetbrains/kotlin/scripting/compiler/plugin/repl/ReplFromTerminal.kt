@@ -43,7 +43,7 @@ class ReplFromTerminal(
         try {
             with(writer) {
                 printlnWelcomeMessage(
-                    "Welcome to Kotlin version ${KotlinCompilerVersion.VERSION} " +
+                    "Welcome to Kotlin version ${KotlinCompilerVersion.getVersion()} " +
                             "(JRE ${System.getProperty("java.runtime.version")})"
                 )
                 printlnWelcomeMessage("Type :help for help, :quit for quit")

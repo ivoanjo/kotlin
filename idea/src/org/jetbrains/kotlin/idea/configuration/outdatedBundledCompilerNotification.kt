@@ -74,7 +74,7 @@ fun notifyOutdatedBundledCompilerIfNecessary(project: Project) {
 
 private var alreadyNotified = ConcurrentHashMap<String, String>()
 
-fun createOutdatedBundledCompilerMessage(project: Project, bundledCompilerVersion: String = KotlinCompilerVersion.VERSION): String? {
+fun createOutdatedBundledCompilerMessage(project: Project, bundledCompilerVersion: String = KotlinCompilerVersion.getVersion()): String? {
     val bundledCompilerMajorVersion = createKotlinVersion(bundledCompilerVersion) ?: return null
 
     var maxCompilerInfo: ModuleCompilerInfo? = null

@@ -39,7 +39,7 @@ internal fun loadCompilerVersion(compilerClasspath: List<File>): String {
     fun checkVersion(bytes: ByteArray) {
         ClassReader(bytes).accept(object : ClassVisitor(Opcodes.API_VERSION) {
             override fun visitField(access: Int, name: String, desc: String, signature: String?, value: Any?): FieldVisitor {
-                if (name == KotlinCompilerVersion::VERSION.name && value is String) {
+                if (name == "VERSION" && value is String) {
                     result = value
                 }
                 return super.visitField(access, name, desc, signature, value)
