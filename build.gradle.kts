@@ -386,7 +386,8 @@ allprojects {
 
     normalization {
         runtimeClasspath {
-            ignore("META-INF/MANIFEST.MF")
+            ignore("/META-INF/MANIFEST.MF")
+            ignore("/org/jetbrains/kotlin/config/KotlinCompilerVersion.class")
         }
     }
 
