@@ -31,7 +31,7 @@ buildscript {
 val cacheRedirectorEnabled = findProperty("cacheRedirectorEnabled")?.toString()?.toBoolean() == true
 
 logger.info("buildSrcKotlinVersion: " + extra["buildSrcKotlinVersion"])
-logger.info("buildSrc kotlin compiler version: " + org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION)
+logger.info("buildSrc kotlin compiler version: " + org.jetbrains.kotlin.config.KotlinCompilerVersion.getVersion())
 logger.info("buildSrc stdlib version: " + KotlinVersion.CURRENT)
 
 apply {
