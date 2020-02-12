@@ -21,6 +21,8 @@ plugins {
     id("pill-configurable")
 }
 
+val JDK_16: String by rootProject.extra
+
 callGroovy("configureJavaOnlyJvm6Project", project)
 
 publish()
@@ -47,7 +49,6 @@ dependencies {
 
     proguardDeps(kotlinStdlib())
     proguardAdditionalInJars(project(":kotlin-annotations-jvm"))
-    proguardDeps(files(firstFromJavaHomeThatExists("jre/lib/rt.jar", "../Classes/classes.jar", jdkHome = File(property("JDK_16") as String))))
 
     embedded(project(":core:type-system"))
     embedded(project(":kotlin-reflect-api"))
@@ -150,7 +151,9 @@ val proguard by task<CacheableProguardTask> {
     outjars(proguardOutput)
     outputs.file(proguardOutput)
 
+    jdkHome = File(JDK_16)
     libraryjars(mapOf("filter" to "!META-INF/versions/**"), proguardDeps)
+    libraryjars(firstFromJavaHomeThatExists("jre/lib/rt.jar", "../Classes/classes.jar", jdkHome = jdkHome!!))
 
     configuration("$core/reflection.jvm/reflection.pro")
 }
