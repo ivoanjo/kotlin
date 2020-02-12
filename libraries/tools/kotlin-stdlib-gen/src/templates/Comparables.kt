@@ -282,6 +282,19 @@ object ComparableOps : TemplateGroupBase() {
             return min
             """
         }
+        if (primitive?.isFloatingPoint() == true) {
+            body {
+                """
+                if (a.isNaN()) return a
+                var min = a
+                for (e in other) {
+                    if (e.isNaN()) return e 
+                    if (min > e) min = e
+                }
+                return min
+                """
+            }
+        }
     }
 
     val f_minOf_2_comparator = fn("minOf(a: T, b: T, comparator: Comparator<in T>)") {
@@ -466,6 +479,19 @@ object ComparableOps : TemplateGroupBase() {
             for (e in other) if (max < e) max = e
             return max
             """
+        }
+        if (primitive?.isFloatingPoint() == true) {
+            body {
+                """
+                if (a.isNaN()) return a
+                var max = a
+                for (e in other) {
+                    if (e.isNaN()) return e
+                    if (max < e) max = e
+                }
+                return max
+                """
+            }
         }
     }
 

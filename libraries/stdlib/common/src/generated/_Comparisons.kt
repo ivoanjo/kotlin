@@ -184,8 +184,12 @@ public fun maxOf(a: Long, vararg other: Long): Long {
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Float, vararg other: Float): Float {
+    if (a.isNaN()) return a
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) {
+        if (e.isNaN()) return e
+        if (max < e) max = e
+    }
     return max
 }
 
@@ -194,8 +198,12 @@ public fun maxOf(a: Float, vararg other: Float): Float {
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Double, vararg other: Double): Double {
+    if (a.isNaN()) return a
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) {
+        if (e.isNaN()) return e
+        if (max < e) max = e
+    }
     return max
 }
 
@@ -378,8 +386,12 @@ public fun minOf(a: Long, vararg other: Long): Long {
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Float, vararg other: Float): Float {
+    if (a.isNaN()) return a
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) {
+        if (e.isNaN()) return e 
+        if (min > e) min = e
+    }
     return min
 }
 
@@ -388,8 +400,12 @@ public fun minOf(a: Float, vararg other: Float): Float {
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Double, vararg other: Double): Double {
+    if (a.isNaN()) return a
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) {
+        if (e.isNaN()) return e 
+        if (min > e) min = e
+    }
     return min
 }
 
