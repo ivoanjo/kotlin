@@ -214,19 +214,19 @@ class ShortenReferences(val options: (KtElement) -> Options = { Options.DEFAULT 
             // step 4: try to import descriptors needed to shorten other elements
             val descriptorsToImport = processors.flatMap { it.getDescriptorsToImport() }.toSet()
             var anyChange = false
-            runWriteAction {
-                for (descriptor in descriptorsToImport) {
-                    assert(descriptor !in failedToImportDescriptors)
+            for (descriptor in descriptorsToImport) {
+                assert(descriptor !in failedToImportDescriptors)
 
-                    val result = helper.importDescriptor(file, descriptor)
-                    if (result != ImportDescriptorResult.ALREADY_IMPORTED) {
-                        anyChange = true
-                    }
-                    if (result == ImportDescriptorResult.FAIL) {
-                        failedToImportDescriptors.add(descriptor)
-                    }
+                val result = helper.importDescriptor(file, descriptor)
+                if (result != ImportDescriptorResult.ALREADY_IMPORTED) {
+                    anyChange = true
                 }
-                if (!anyChange) processors.forEach { it.removeRootPrefixes() }
+                if (result == ImportDescriptorResult.FAIL) {
+                    failedToImportDescriptors.add(descriptor)
+                }
+            }
+            if (!anyChange) runWriteAction {
+                processors.forEach { it.removeRootPrefixes() }
             }
 
             if (!anyChange) break

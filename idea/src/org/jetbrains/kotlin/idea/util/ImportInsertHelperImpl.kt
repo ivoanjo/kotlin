@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.idea.project.TargetPlatformDetector
 import org.jetbrains.kotlin.idea.project.findAnalyzerServices
 import org.jetbrains.kotlin.idea.refactoring.fqName.isImported
 import org.jetbrains.kotlin.idea.resolve.frontendService
+import org.jetbrains.kotlin.idea.util.application.runWriteAction
 import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -258,11 +259,14 @@ class ImportInsertHelperImpl(private val project: Project) : ImportInsertHelper(
             val addedImport = addImport(parentFqName, true)
 
             if (!isAlreadyImported(targetDescriptor, resolutionFacade.getFileResolutionScope(file), targetFqName)) {
-                addedImport.delete()
+                runWriteAction {
+                    addedImport.delete()
+                }
                 return ImportDescriptorResult.FAIL
             }
-
-            dropRedundantExplicitImports(parentFqName)
+            runWriteAction {
+                dropRedundantExplicitImports(parentFqName)
+            }
 
             val conflicts = futureCheckMap
                 .mapNotNull { (expr, fqNameAndType) ->
@@ -382,21 +386,21 @@ class ImportInsertHelperImpl(private val project: Project) : ImportInsertHelper(
     }
 
     companion object {
-        fun addImport(project: Project, file: KtFile, fqName: FqName, allUnder: Boolean = false, alias: Name? = null): KtImportDirective {
+        fun addImport(project: Project, file: KtFile, fqName: FqName, allUnder: Boolean = false, alias: Name? = null) = runWriteAction {
             val importPath = ImportPath(fqName, allUnder, alias)
 
             val psiFactory = KtPsiFactory(project)
             if (file is KtCodeFragment) {
                 val newDirective = psiFactory.createImportDirective(importPath)
                 file.addImportsFromString(newDirective.text)
-                return newDirective
+                return@runWriteAction newDirective
             }
 
             val importList = file.importList
             if (importList != null) {
                 val newDirective = psiFactory.createImportDirective(importPath)
                 val imports = importList.imports
-                return if (imports.isEmpty()) { //TODO: strange hack
+                return@runWriteAction if (imports.isEmpty()) { //TODO: strange hack
                     importList.add(psiFactory.createNewLine())
                     importList.add(newDirective) as KtImportDirective
                 } else {
