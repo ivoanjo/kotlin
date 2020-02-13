@@ -276,22 +276,9 @@ object ComparableOps : TemplateGroupBase() {
         body {
             """
             var min = a
-            for (e in other) if (min > e) min = e
+            for (e in other) min = minOf(min, e)
             return min
             """
-        }
-        if (primitive?.isFloatingPoint() == true) {
-            body {
-                """
-                if (a.isNaN()) return a
-                var min = a
-                for (e in other) {
-                    if (e.isNaN()) return e 
-                    if (min > e) min = e
-                }
-                return min
-                """
-            }
         }
     }
 
@@ -472,22 +459,9 @@ object ComparableOps : TemplateGroupBase() {
         body {
             """
             var max = a
-            for (e in other) if (max < e) max = e
+            for (e in other) max = maxOf(max, e)
             return max
             """
-        }
-        if (primitive?.isFloatingPoint() == true) {
-            body {
-                """
-                if (a.isNaN()) return a
-                var max = a
-                for (e in other) {
-                    if (e.isNaN()) return e
-                    if (max < e) max = e
-                }
-                return max
-                """
-            }
         }
     }
 

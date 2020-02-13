@@ -143,7 +143,7 @@ public fun <T> maxOf(a: T, b: T, comparator: Comparator<in T>): T {
 @SinceKotlin("1.4")
 public fun <T : Comparable<T>> maxOf(a: T, vararg other: T): T {
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -153,7 +153,7 @@ public fun <T : Comparable<T>> maxOf(a: T, vararg other: T): T {
 @SinceKotlin("1.4")
 public fun maxOf(a: Byte, vararg other: Byte): Byte {
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -163,7 +163,7 @@ public fun maxOf(a: Byte, vararg other: Byte): Byte {
 @SinceKotlin("1.4")
 public fun maxOf(a: Short, vararg other: Short): Short {
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -173,7 +173,7 @@ public fun maxOf(a: Short, vararg other: Short): Short {
 @SinceKotlin("1.4")
 public fun maxOf(a: Int, vararg other: Int): Int {
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -183,7 +183,7 @@ public fun maxOf(a: Int, vararg other: Int): Int {
 @SinceKotlin("1.4")
 public fun maxOf(a: Long, vararg other: Long): Long {
     var max = a
-    for (e in other) if (max < e) max = e
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -194,12 +194,8 @@ public fun maxOf(a: Long, vararg other: Long): Long {
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Float, vararg other: Float): Float {
-    if (a.isNaN()) return a
     var max = a
-    for (e in other) {
-        if (e.isNaN()) return e
-        if (max < e) max = e
-    }
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -210,12 +206,8 @@ public fun maxOf(a: Float, vararg other: Float): Float {
  */
 @SinceKotlin("1.4")
 public fun maxOf(a: Double, vararg other: Double): Double {
-    if (a.isNaN()) return a
     var max = a
-    for (e in other) {
-        if (e.isNaN()) return e
-        if (max < e) max = e
-    }
+    for (e in other) max = maxOf(max, e)
     return max
 }
 
@@ -357,7 +349,7 @@ public fun <T> minOf(a: T, b: T, comparator: Comparator<in T>): T {
 @SinceKotlin("1.4")
 public fun <T : Comparable<T>> minOf(a: T, vararg other: T): T {
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -367,7 +359,7 @@ public fun <T : Comparable<T>> minOf(a: T, vararg other: T): T {
 @SinceKotlin("1.4")
 public fun minOf(a: Byte, vararg other: Byte): Byte {
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -377,7 +369,7 @@ public fun minOf(a: Byte, vararg other: Byte): Byte {
 @SinceKotlin("1.4")
 public fun minOf(a: Short, vararg other: Short): Short {
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -387,7 +379,7 @@ public fun minOf(a: Short, vararg other: Short): Short {
 @SinceKotlin("1.4")
 public fun minOf(a: Int, vararg other: Int): Int {
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -397,7 +389,7 @@ public fun minOf(a: Int, vararg other: Int): Int {
 @SinceKotlin("1.4")
 public fun minOf(a: Long, vararg other: Long): Long {
     var min = a
-    for (e in other) if (min > e) min = e
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -408,12 +400,8 @@ public fun minOf(a: Long, vararg other: Long): Long {
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Float, vararg other: Float): Float {
-    if (a.isNaN()) return a
     var min = a
-    for (e in other) {
-        if (e.isNaN()) return e 
-        if (min > e) min = e
-    }
+    for (e in other) min = minOf(min, e)
     return min
 }
 
@@ -424,12 +412,8 @@ public fun minOf(a: Float, vararg other: Float): Float {
  */
 @SinceKotlin("1.4")
 public fun minOf(a: Double, vararg other: Double): Double {
-    if (a.isNaN()) return a
     var min = a
-    for (e in other) {
-        if (e.isNaN()) return e 
-        if (min > e) min = e
-    }
+    for (e in other) min = minOf(min, e)
     return min
 }
 

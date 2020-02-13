@@ -166,6 +166,7 @@ class OrderingTest {
         assertEquals(Double.POSITIVE_INFINITY, maxOf(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.MAX_VALUE, Double.MIN_VALUE))
         assertEquals(0.0, maxOf(0.0, -0.0))
         assertEquals(0.0, maxOf(-0.0, 0.0))
+        assertEquals(0.0, maxOf(-0.0, 0.0, 0.0, -0.0))
     }
 
     @Test
@@ -193,6 +194,7 @@ class OrderingTest {
         assertEquals(Double.NEGATIVE_INFINITY, minOf(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.MAX_VALUE, Double.MIN_VALUE))
         assertEquals(-0.0, minOf(0.0, -0.0))
         assertEquals(-0.0, minOf(-0.0, 0.0))
+        assertEquals(-0.0, minOf(-0.0, 0.0, 0.0, -0.0))
     }
 
     @Test
