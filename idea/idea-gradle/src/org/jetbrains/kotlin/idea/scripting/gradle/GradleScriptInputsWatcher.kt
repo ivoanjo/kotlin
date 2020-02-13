@@ -21,25 +21,7 @@ class GradleScriptInputsWatcher(val project: Project) : PersistentStateComponent
     private var storage = Storage()
 
     fun startWatching() {
-        VirtualFileManager.getInstance().addAsyncFileListener(
-            object : AsyncFileChangeListenerBase() {
-                override fun isRelevant(path: String): Boolean {
-                    val files = getAffectedGradleProjectFiles(project)
-                    return isInAffectedGradleProjectFiles(files, path)
-                }
-
-                override fun updateFile(file: VirtualFile, event: VFileEvent) {
-                    storage.fileChanged(event.path, file.timeStamp)
-                }
-
-                // do nothing
-                override fun prepareFileDeletion(file: VirtualFile) {}
-                override fun apply() {}
-                override fun reset() {}
-
-            },
-            project,
-        )
+        addVfsListener(this)
     }
 
     fun areRelatedFilesUpToDate(file: VirtualFile, timeStamp: Long): Boolean {
@@ -66,13 +48,12 @@ class GradleScriptInputsWatcher(val project: Project) : PersistentStateComponent
         this.storage = state
     }
 
-    @TestOnly
-    fun clearAndRefillState() {
-        loadState(project.service<GradleScriptInputsWatcher>().state)
+    fun fileChanged(filePath: String, ts: Long) {
+        storage.fileChanged(filePath, ts)
     }
 
     @TestOnly
-    fun fileChanged(file: VirtualFile, ts: Long) {
-        storage.fileChanged(file.path, ts)
+    fun clearAndRefillState() {
+        loadState(project.service<GradleScriptInputsWatcher>().state)
     }
 }

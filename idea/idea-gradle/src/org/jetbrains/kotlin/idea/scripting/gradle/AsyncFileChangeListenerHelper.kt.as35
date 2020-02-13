@@ -1,0 +1,121 @@
+/*
+ * Copyright 2010-2020 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
+ */
+
+package org.jetbrains.kotlin.idea.scripting.gradle
+
+import com.intellij.openapi.progress.ProcessCanceledException
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.vfs.*
+import com.intellij.openapi.vfs.newvfs.NewVirtualFile
+import com.intellij.openapi.vfs.newvfs.events.*
+import java.util.*
+
+fun addVfsListener(watcher: GradleScriptInputsWatcher) {
+    VirtualFileManager.getInstance().addAsyncFileListener(
+        object : AsyncFileChangeListenerBase() {
+            override fun isRelevant(path: String): Boolean {
+                val files = getAffectedGradleProjectFiles(watcher.project)
+                return isInAffectedGradleProjectFiles(files, path)
+            }
+
+            override fun updateFile(file: VirtualFile, event: VFileEvent) {
+                watcher.fileChanged(event.path, file.timeStamp)
+            }
+
+            // do nothing
+            override fun prepareFileDeletion(file: VirtualFile) {}
+            override fun apply() {}
+            override fun reset() {}
+
+        },
+        watcher.project,
+    )
+}
+
+abstract class AsyncFileChangeListenerBase : AsyncFileListener {
+    protected abstract fun isRelevant(path: String): Boolean
+    protected abstract fun prepareFileDeletion(file: VirtualFile)
+    protected abstract fun updateFile(
+        file: VirtualFile,
+        event: VFileEvent,
+    )
+
+    protected abstract fun reset()
+    protected abstract fun apply()
+    override fun prepareChange(events: List<VFileEvent>): AsyncFileListener.ChangeApplier? {
+        val relevantEvents: MutableList<VFileEvent> =
+            ArrayList()
+        try {
+            for (each in events) {
+                ProgressManager.checkCanceled()
+                if (each is VFileDeleteEvent) {
+                    deleteRecursively(each.file)
+                } else {
+                    if (!isRelevant(each.path)) continue
+                    relevantEvents.add(each)
+                    if (each is VFilePropertyChangeEvent && each.isRename) {
+                        deleteRecursively(each.file)
+                    } else if (each is VFileMoveEvent) {
+                        val moveEvent =
+                            each
+                        val newPath = moveEvent.newParent.path + "/" + moveEvent.file.name
+                        if (!isRelevant(newPath)) {
+                            deleteRecursively(moveEvent.file)
+                        }
+                    }
+                }
+            }
+        } catch (e: ProcessCanceledException) {
+            reset()
+            throw e
+        }
+        return object : AsyncFileListener.ChangeApplier {
+            override fun beforeVfsChange() {
+                apply()
+            }
+
+            override fun afterVfsChange() {
+                after(relevantEvents)
+            }
+        }
+    }
+
+    private fun deleteRecursively(f: VirtualFile) {
+        VfsUtilCore.visitChildrenRecursively(
+            f,
+            object : VirtualFileVisitor<Void?>() {
+                override fun visitFile(f: VirtualFile): Boolean {
+                    if (isRelevant(f.path)) {
+                        prepareFileDeletion(f)
+                    }
+                    return true
+                }
+
+                override fun getChildrenIterable(f: VirtualFile): Iterable<VirtualFile>? {
+                    return if (f.isDirectory && f is NewVirtualFile) f.iterInDbChildren() else null
+                }
+            },
+        )
+    }
+
+    private fun after(relevantEvents: List<VFileEvent>) {
+        for (each in relevantEvents) {
+            if (each is VFileCreateEvent) {
+                val newChild = each.getFile()
+                newChild?.let { updateFile(it, each) }
+            } else if (each is VFileCopyEvent) {
+                val copyEvent =
+                    each
+                val newChild = copyEvent.newParent.findChild(copyEvent.newChildName)
+                newChild?.let { updateFile(it, each) }
+            } else if (each is VFileContentChangeEvent ||
+                each is VFileMoveEvent || each is VFilePropertyChangeEvent && each.isRename
+            ) {
+                updateFile(Objects.requireNonNull(each.file)!!, each)
+            }
+        }
+        apply()
+    }
+}
